@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Clases UML - Luis Silgado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* MENÚ LATERAL */
+        .sidebar {
+            width: 320px;
+            background-color: #1e293b;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .sidebar h2 { font-size: 16px; color: #38bdf8; margin-bottom: 5px; }
+        .sidebar p { font-size: 12px; color: #94a3b8; margin: 0 0 20px 0; }
+        .btn-clase {
+            background-color: #334155;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-clase:hover { background-color: #475569; border-color: #38bdf8; }
+        .btn-clase.active {
+            background-color: #0284c7;
+            color: white;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        /* CONTENIDO CENTRAL */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        h1 { font-size: 22px; color: #38bdf8; margin: 0; }
+        h3 { color: #38bdf8; margin-top: 0; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+        
+        /* DISEÑO DE CAJA UML */
+        .uml-box {
+            background-color: #0f172a;
+            border: 2px solid #38bdf8;
+            border-radius: 6px;
+            width: 320px;
+            margin: 15px auto;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+        .uml-header {
+            background-color: #0284c7;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            border-bottom: 2px solid #38bdf8;
+        }
+        .uml-section {
+            padding: 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .uml-section:nth-child(2) {
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+        }
+        .uml-section:nth-child(3) {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Diagrama de Clases</h2>
+        <p>Aprendiz: Luis David Silgado Miranda<br>Ficha: 3465982<br>Evidencia: GA4-220501095-AA2-EV04</p>
+        
+        <button class="btn-clase" id="clase-1" onclick="cambiarClase(1)">1. Clase Padre: Usuario</button>
+        <button class="btn-clase" id="clase-2" onclick="cambiarClase(2)">2. Clase Hija: Cliente</button>
+        <button class="btn-clase" id="clase-3" onclick="cambiarClase(3)">3. Clase Hija: Administrador</button>
+        <button class="btn-clase" id="clase-4" onclick="cambiarClase(4)">4. Clase: Producto</button>
+        <button class="btn-clase" id="clase-5" onclick="cambiarClase(5)">5. Clase: Carrito</button>
+    </div>
+
+    <div class="main-content">
+        <div class="card">
+            <h1 id="panel-titulo">Cargando Modelador UML...</h1>
+            <p style="color: #94a3b8; font-size: 13px; margin: 5px 0 0 0;">Visualizador interactivo de especificación de clases bajo principios POO.</p>
+        </div>
+
+        <div class="card" style="display: flex; flex-direction: column; align-items: center;">
+            <h3 style="width: 100%;">Vista de Bloque UML Estándar</h3>
+            
+            <div class="uml-box" id="uml-contenedor">
+                <!-- Inyección dinámica -->
+            </div>
+            
+            <p style="font-size: 12px; color: #64748b; margin-top: 10px; font-style: italic;">Simbología: (-) Atributo Privado | (+) Método Público</p>
+        </div>
+    </div>
+
+    <script>
+        var datosUML = {
+            1: {
+                nombre: "Usuario «Abstract»",
+                atributos: "- idUsuario: int<br>- nombre: String<br>- email: String<br>- contrasena: String",
+                metodos: "+ login(): boolean<br>+ recuperarClave(): void"
+            },
+            2: {
+                nombre: "Cliente «Extends Usuario»",
+                atributos: "- direccionEnvio: String<br>- telefono: String<br>- historialPedidos: List",
+                metodos: "+ registrarCompra(): void<br>+ agregarAlCarrito(): void"
+            },
+            3: {
+                nombre: "Administrador «Extends Usuario»",
+                atributos: "- nivelPermiso: int<br>- codigoEmpleado: String",
+                metodos: "+ actualizarInventario(): void<br>+ banearUsuario(): void"
+            },
+            4: {
+                nombre: "Producto",
+                atributos: "- idProducto: int<br>- nombre: String<br>- precio: double<br>- stock: int",
+                metodos: "+ consultarPrecio(): double<br>+ reducirStock(c: int): void"
+            },
+            5: {
+                nombre: "Carrito",
+                atributos: "- listaProductos: List&lt;Producto&gt;<br>- totalAcumulado: double",
+                metodos: "+ agregarProducto(p: Producto): void<br>+ calcularTotal(): double<br>+ procesarCheckOut(): void"
+            }
+        };
+
+        function cambiarClase(id) {
+            var botones = document.getElementsByClassName('btn-clase');
+            for (var i = 0; i < botones.length; i++) { botones[i].classList.remove('active'); }
+            document.getElementById('clase-' + id).classList.add('active');
+
+            var titulo = document.getElementById('panel-titulo');
+            var contenedor = document.getElementById('uml-contenedor');
+            var datos = datosUML[id];
+
+            titulo.innerText = "Inspección de la Clase: " + datos.nombre;
+            
+            contenedor.innerHTML = 
+                "<div class='uml-header'>" + datos.nombre + "</div>" +
+                "<div class='uml-section'>" + datos.atributos + "</div>" +
+                "<div class='uml-section'>" + datos.metodos + "</div>";
+        }
+
+        window.onload = function() {
+            cambiarClase(1);
+        };
+    </script>
+</body>
+</html>
